@@ -1,0 +1,32 @@
+<div class="users-container">
+    <h2>Gestion des utilisateurs</h2>
+  
+    <!-- Sélection de l'utilisateur -->
+    <label for="userSelect">Sélectionnez un utilisateur :</label>
+    <select id="userSelect" (change)="onUserSelect($event)">
+      <option value="">-- Choisir un utilisateur --</option>
+      <option *ngFor="let user of users" [value]="user.id">
+        {{ user.name }} ({{ user.email }})
+      </option>
+    </select>
+  
+    <!-- Bouton pour rechercher les tâches -->
+    <button (click)="searchTasks()">Rechercher les tâches</button>
+  
+    <!-- Affichage des tâches créées par l'utilisateur sélectionné -->
+    <div *ngIf="createdTasks.length > 0">
+      <h3>Tâches créées par {{ selectedUserName }}</h3>
+      <ul>
+        <li *ngFor="let task of createdTasks">{{ task.title }}</li>
+      </ul>
+    </div>
+  
+    <!-- Affichage des tâches assignées à l'utilisateur sélectionné -->
+    <div *ngIf="assignedTasks.length > 0">
+      <h3>Tâches assignées à {{ selectedUserName }}</h3>
+      <ul>
+        <li *ngFor="let task of assignedTasks">{{ task.title }}</li>
+      </ul>
+    </div>
+  </div>
+  

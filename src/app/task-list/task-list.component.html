@@ -1,43 +1,54 @@
 <div class="task-list">
 
+    <!-- Boutons pour filtrer par tâches créées et assignées sur mobile -->
     <div *ngIf="isMobile">
-        <button mat-button color="secondary" (click)="shouldShowCreatedBy()">Created By</button>
-        <button mat-button color="secondary" (click)="shouldShowAssingedTo()">Assigned To</button>
+        <button mat-button color="secondary" (click)="shouldShowCreatedBy()">Tâches Créées</button>
+        <button mat-button color="secondary" (click)="shouldShowAssignedTo()">Tâches Assignées</button>
     </div>
 
+    <!-- Affichage des tâches créées par l'utilisateur -->
     <ng-container *ngIf="!isMobile || (isMobile && showCreatedBy)">
-        <h2>Tasks Created By</h2>
+        <h2>Tâches Créées Par Moi</h2>
         <div class="flex-row">
             <mat-card *ngFor="let task of createdTasks" class="task-card">
                 <mat-card-header>
-                    <mat-card-title>{{task.description}}</mat-card-title>
+                    <mat-card-title>{{ task.description }}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <p><strong>Assigned To: </strong>{{task.assignedToName}}</p>
-                    <p><strong>Status: </strong>{{task.done ? 'Completed' : 'Pending'}}</p>
+                    <p><strong>Assignée à: </strong>{{ task.assignedToName }}</p>
+                    <p><strong>Statut: </strong>{{ task.done ? 'Complétée' : 'En attente' }}</p>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-button color="warn" (click)="deleteTask(task)">Delete Task</button>
+                    <!-- Bouton Modifier pour les tâches créées -->
+                    <button mat-button color="primary" (click)="editTask(task)">Modifier</button>
+                    <!-- Bouton Supprimer pour les tâches créées -->
+                    <button mat-button color="warn" (click)="deleteTask(task)">Supprimer la tâche</button>
                 </mat-card-actions>
             </mat-card>
         </div>
     </ng-container>
     
+    <!-- Affichage des tâches assignées à l'utilisateur -->
     <ng-container *ngIf="!isMobile || (isMobile && showAssignedTo)">
-        <h2>Tasks Assigned To</h2>
+        <h2>Tâches Assignées à Moi</h2>
         <div class="flex-row">
             <mat-card *ngFor="let task of assignedTasks" [ngClass]="{'new-task': shouldHighlight(task.taskUid)}" class="task-card">
                 <mat-card-header>
-                    <mat-card-title>{{task.description}}</mat-card-title>
+                    <mat-card-title>{{ task.description }}</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
-                    <p><strong>Created by: </strong>{{task.createdByName}}</p>
-                    <p><strong>Status: </strong>{{task.done ? 'Completed' : 'Pending'}}</p>
+                    <p><strong>Créée par: </strong>{{ task.createdByName }}</p>
+                    <p><strong>Statut: </strong>{{ task.done ? 'Complétée' : 'En attente' }}</p>
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-button color="primary" (click)="changeStatus(task)">{{task.done ? 'Mark as Incomplete' : 'Mark as Done'}}</button>
+                    <!-- Bouton pour changer le statut de la tâche assignée -->
+                    <button mat-button color="primary" (click)="changeStatus(task)">
+                        {{ task.done ? 'Marquer comme Incomplète' : 'Marquer comme Complétée' }}
+                    </button>
+                    <!-- Bouton Supprimer pour les tâches assignées -->
+                    <button mat-button color="warn" (click)="deleteTask(task)">Supprimer la tâche</button>
                 </mat-card-actions>
             </mat-card>
         </div>
-    </ng-container>    
+    </ng-container>
 </div>
